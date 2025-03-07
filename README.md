@@ -1,6 +1,6 @@
 # Movie Vault 🎬
 
-**Movie Vault** to aplikacja webowa do przeglądania filmów, której celem jest umożliwienie użytkownikowi odkrywania różnych filmów na podstawie ich gatunków oraz wyszukiwania filmów po tytule. Aplikacja korzysta z API The Movie Database (TMDb) do pobierania szczegółów filmów oraz umożliwia przeglądanie filmów na szczegółowych stronach z opisami filmów.
+**Movie Vault** to aplikacja webowa do przeglądania filmów, której celem jest umożliwienie użytkownikowi odkrywania różnych nowości na podstawie ich gatunków oraz wyszukiwania ich po tytule. Aplikacja korzysta z API The Movie Database (TMDb) do pobierania szczegółów filmów i ich wyświetlania na osobnych podstronach.
 
 ## Cel projektu
 
@@ -8,9 +8,9 @@ Celem tego projektu było stworzenie interaktywnej aplikacji webowej, która umo
 
 ## Funkcje aplikacji
 
-- **Wyszukiwanie filmów**: Użytkownicy mogą wyszukiwać filmy po tytule, a aplikacja wyświetli wyniki w postaci kart z filmami.
+- **Wyszukiwanie filmów**: Użytkownicy mogą wyszukiwać filmy po tytule, a aplikacja wyświetli wyniki w postaci kart.
 - **Gatunki filmowe**: Filmy są podzielone na różne gatunki, takie jak akcja, komedia, dramat, horror itp., a użytkownicy mogą przeglądać filmy w ramach tych kategorii.
-- **Szczegóły filmu**: Klikając na film, użytkownicy mogą przejść do strony ze szczegółowymi informacjami, takimi jak tytuł, opis, ocena, data premiery i gatunki filmu.
+- **Szczegóły filmu**: Klikając na film, użytkownicy mogą przejść do strony ze szczegółowymi informacjami, takimi jak tytuł, opis, ocena, data premiery i gatunek.
 - **Dostosowany interfejs użytkownika**: Aplikacja używa **React**, **TailwindCSS**, **React Slick** oraz **Material UI** do implementacji interaktywnych karuzeli, komponentów UI i stylizacji.
 
 ## Technologie
@@ -39,7 +39,7 @@ Aplikacja nie zawiera jeszcze pełnego zestawu testów jednostkowych ani end-to-
 1. Sklonuj repozytorium:
 
    ```bash
-   git clone https://github.com/yourusername/movie-vault.git
+   git clone https://github.com/K4mD4m/movie-vault.git
    ```
 
 2. Zainstaluj zależności:
@@ -80,4 +80,4 @@ Po zapisaniu pliku `.env.local` możesz uruchomić aplikację lokalnie, a aplika
 
 ## Autor
 
-Projekt został stworzony przez **Damiana Kamyszka** jako część procesu rekrutacyjnego na stanowisko **Junior Front-End Developera.**.
+Projekt został stworzony przez **Damiana Kamyszka** jako część procesu rekrutacyjnego na stanowisko **Junior Front-End Developer**.
