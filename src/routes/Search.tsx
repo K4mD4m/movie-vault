@@ -251,7 +251,10 @@ const Search = () => {
             <div className="w-full max-w-4xl">
               {/* Przycisk powrotu do wyszukiwania */}
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => {
+                  setIsSearching(false);
+                  setSearchResults([]);
+                }}
                 className="flex items-center text-indigo-400 hover:text-indigo-300 transition mb-6 text-lg font-semibold cursor-pointer"
               >
                 <ArrowLeft className="mr-2" /> Back to Search
