@@ -10,10 +10,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = useState<string>(""); // Stan do przechowywania wartości wpisanej w polu wyszukiwania
 
   // Funkcja obsługująca wysłanie formularza
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch(query);
+
+      e.currentTarget.blur(); // Usunięcie focusu z pola tekstowego
     }
   };
 
