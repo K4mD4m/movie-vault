@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -8,6 +8,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [query, setQuery] = useState<string>(""); // Stan do przechowywania wartości wpisanej w polu wyszukiwania
+  const inputRef = useRef<HTMLInputElement>(null); // Referencja do inputa
 
   // Funkcja obsługująca wysłanie formularza
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,7 +16,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     if (query.trim()) {
       onSearch(query);
 
-      e.currentTarget.blur(); // Usunięcie focusu z pola tekstowego
+      if (inputRef.current) {
+        inputRef.current.blur(); // Usunięcie focusu z inputa po wysłaniu formularza
+      }
     }
   };
 
@@ -31,6 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={(e) => (e.target.placeholder = "")}
         onBlur={(e) => (e.target.placeholder = "Search for a movie...")}
+        inputRef={inputRef}
         sx={{
           width: { xs: "100%", sm: "60%", md: "40%" },
           backgroundColor: "rgba(255, 255, 255, 0.1)",

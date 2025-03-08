@@ -142,9 +142,10 @@ const Home: React.FC = () => {
 
         {/* Opis */}
         <p className="text-white text-lg text-center mb-8 px-6 md:px-0 max-w-3xl mx-auto">
-          Uncover hidden gems, trending blockbusters, and timeless classics all
-          in one place. Explore films, rate your favorites, and save them to
-          your vault once you sign in.
+          Discover hidden gems, trending blockbusters, and timeless classics all
+          in one place. Browse through an extensive collection of films, explore
+          new genres, and find your next favorite movie to watch anytime,
+          anywhere!
         </p>
 
         {/* Przycisk do przekierowania na /search */}
@@ -219,8 +220,8 @@ const Home: React.FC = () => {
                       alt={person.name}
                       className="rounded-full w-24 lg:w-40 h-24 lg:h-40 object-cover mb-6 border-4 border-indigo-500 transition-all duration-300"
                     />
-                    <div className="absolute bottom-0 left-0 w-full p-3 rounded-b-lg">
-                      <span className="text-base lg:text-lg font-semibold text-white whitespace-nowrap">
+                    <div className="absolute -bottom-9 lg:-bottom-4  w-full p-3 rounded-b-lg text-center">
+                      <span className="text-base lg:text-lg font-semibold text-white lg:whitespace-nowrap">
                         {person.name}
                       </span>
                     </div>
