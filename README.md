@@ -1,83 +1,83 @@
 # Movie Vault 🎬
 
-**Movie Vault** to aplikacja webowa do przeglądania filmów, której celem jest umożliwienie użytkownikowi odkrywania różnych nowości na podstawie ich gatunków oraz wyszukiwania ich po tytule. Aplikacja korzysta z API The Movie Database (TMDb) do pobierania szczegółów filmów i ich wyświetlania na osobnych podstronach.
+**Movie Vault** is a web application for browsing movies, designed to help users discover new films based on their genres and search for them by title. The app utilizes The Movie Database (TMDb) API to fetch movie details and display them on dedicated subpages.
 
-## Cel projektu
+## Project Goal
 
-Celem tego projektu było stworzenie interaktywnej aplikacji webowej, która umożliwia użytkownikowi łatwe odkrywanie filmów w różnych gatunkach, wyszukiwanie ich po tytule oraz przeglądanie szczegółowych informacji o filmach.
+The goal of this project was to create an interactive web application that allows users to easily explore movies across different genres, search for them by title, and view detailed movie information.
 
-## Funkcje aplikacji
+## Application Features
 
-- **Wyszukiwanie filmów**: Użytkownicy mogą wyszukiwać filmy po tytule, a aplikacja wyświetli wyniki w postaci kart.
-- **Gatunki filmowe**: Filmy są podzielone na różne gatunki, takie jak akcja, komedia, dramat, horror itp., a użytkownicy mogą przeglądać filmy w ramach tych kategorii.
-- **Szczegóły filmu**: Klikając na film, użytkownicy mogą przejść do strony ze szczegółowymi informacjami, takimi jak tytuł, opis, ocena, data premiery i gatunek.
-- **Dostosowany interfejs użytkownika**: Aplikacja używa **React**, **TailwindCSS**, **React Slick** oraz **Material UI** do implementacji interaktywnych karuzeli, komponentów UI i stylizacji.
+- **Movie Search**: Users can search for movies by title, and the app will display the results as cards.
+- **Movie Genres**: Movies are categorized into different genres such as action, comedy, drama, horror, etc., allowing users to browse films within these categories
+- **Movie Details**: By clicking on a movie, users can access a detailed page with information such as title, description, rating, release date, and genre.
+- **Custom UI Design**: The application uses **React**, **TailwindCSS**, **React Slick** and **Material UI** to implement interactive carousels, UI components, and styling.
 
-## Technologie
+## Technologies
 
-- **React**: Biblioteka do budowania interfejsów użytkownika.
-- **Vite**: Narzędzie do szybkiego bundlowania aplikacji.
-- **TailwindCSS**: Narzędzie do szybkiego tworzenia interfejsów za pomocą klas CSS.
-- **Material UI**: Biblioteka komponentów UI do szybkiego budowania responsywnych i nowoczesnych interfejsów użytkownika.
-- **React Router**: Do zarządzania nawigacją w aplikacji.
-- **Slick Carousel**: Do implementacji karuzel z filmami.
-- **The Movie Database (TMDb) API**: API do pobierania danych o filmach.
+- **React**: Library for building user interfaces.
+- **Vite**: Tool for fast application bundling.
+- **TailwindCSS**: Utility-first CSS framework for styling.
+- **Material UI**: UI component library for building responsive and modern interfaces.
+- **React Router**: For managing navigation within the application.
+- **Slick Carousel**: For implementing movie carousels.
+- **The Movie Database (TMDb) API**: For fetching movie data.
 
-## Plany na przyszłość / Rozszerzenia
+## Future Plans / Enhancements
 
-- Dodanie funkcji oceniania filmów przez użytkowników.
-- Integracja z systemem logowania użytkowników.
-- Możliwość dodawania filmów do listy ulubionych.
-- Rozbudowa aplikacji o więcej funkcji związanych z interakcją użytkownika, takich jak komentarze czy oceny.
+- Adding a feature for users to rate movies.
+- Integration with a user authentication system.
+- Ability to add movies to a favorites list.
+- Expanding the application with more interactive features such as comments and reviews.
 
-## Testowanie
+## Testing
 
-Aplikacja nie zawiera jeszcze pełnego zestawu testów jednostkowych ani end-to-end. W przyszłości planuję dodać testy za pomocą **Jest** oraz **React Testing Library**, aby zapewnić wysoką jakość kodu i stabilność aplikacji.
+The application does not yet include a full set of unit or end-to-end tests. In the future, I plan to add tests using Jest and React Testing Library to ensure code quality and application stability.
 
-## Instalacja
+## Installation
 
-1. Sklonuj repozytorium:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/K4mD4m/movie-vault.git
    ```
 
-2. Zainstaluj zależności:
+2. Install dependencies:
 
    ```bash
    cd movie-vault
    npm install
    ```
 
-3. Uruchom aplikację lokalnie:
+3. Run the application locally:
 
    ```bash
    npm run dev
    ```
 
-4. Aplikacja powinna być dostępna pod adresem: http://localhost:5173/
+4. The application should be available at: http://localhost:5173/
 
-## Plik `.env.local`
+## `.env.local` File
 
-Aby aplikacja mogła komunikować się z API **The Movie Database (TMDb)**, potrzebujesz klucza API. Należy go umieścić w pliku `.env.local` w głównym katalogu projektu.
+To enable the application to communicate with The Movie Database (TMDb) API, you need an API key. This key should be placed in the `.env.local` file in the root directory of the project.
 
-### Krok 1: Zdobądź klucz API
+### Step 1: Get an API Key
 
-1. Zarejestruj się lub zaloguj na stronie [The Movie Database](https://www.themoviedb.org/).
-2. Przejdź do swojego profilu i otwórz sekcję [API](https://www.themoviedb.org/settings/api).
-3. Utwórz nowy klucz API.
+1. Register or log in to [The Movie Database](https://www.themoviedb.org/).
+2. Go to your profile and open the API section [API](https://www.themoviedb.org/settings/api).
+3. Generate a new API key.
 
-### Krok 2: Skonfiguruj plik `.env.local`
+### Step 2: Configure the .env.local File
 
-W katalogu głównym projektu stwórz plik o nazwie `.env.local` i dodaj w nim następującą zmienną:
+In the project's root directory, create a file named '.env.local' and add the following variable:
 VITE_TMDB_API_KEY=your_api_key_here
 
-Zastąp `your_api_key_here` swoim kluczem API, który uzyskałeś z TMDb.
+Replace `your_api_key_here` with the API key you obtained from TMDb.
 
-### Krok 3: Uruchom aplikację
+### Step 3: Run the Application
 
-Po zapisaniu pliku `.env.local` możesz uruchomić aplikację lokalnie, a aplikacja będzie mogła komunikować się z API i pobierać dane o filmach.
+After saving the `.env.local` file, you can run the application locally, and it will be able to communicate with the API and fetch movie data.
 
-## Autor
+## Live Demo
 
-Projekt został stworzony przez **Damiana Kamyszka** jako część procesu rekrutacyjnego na stanowisko **Junior Front-End Developer**.
+Check out the live version of the app here: [Live Demo](https://movie-vault-gilt.vercel.app/)
