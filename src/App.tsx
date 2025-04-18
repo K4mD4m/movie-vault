@@ -8,6 +8,7 @@ const MovieDetails = lazy(() => import("./routes/MovieDetails")); // Lazy ładow
 const Search = lazy(() => import("./routes/Search")); // Lazy ładowanie komponentu
 const ErrorPage = lazy(() => import("./routes/ErrorPage")); // Lazy ładowanie komponentu
 const Contact = lazy(() => import("./routes/Contact")); // Lazy ładowanie komponentu
+const Register = lazy(() => import("./routes/Register")); // Lazy ładowanie komponentu
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/search" element={<Search />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
