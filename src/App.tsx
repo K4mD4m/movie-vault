@@ -9,6 +9,7 @@ const Search = lazy(() => import("./routes/Search")); // Lazy ładowanie kompone
 const ErrorPage = lazy(() => import("./routes/ErrorPage")); // Lazy ładowanie komponentu
 const Contact = lazy(() => import("./routes/Contact")); // Lazy ładowanie komponentu
 const Register = lazy(() => import("./routes/Register")); // Lazy ładowanie komponentu
+const Login = lazy(() => import("./routes/Login")); // Lazy ładowanie komponentu
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
