@@ -10,6 +10,7 @@ const ErrorPage = lazy(() => import("./routes/ErrorPage")); // Lazy ładowanie k
 const Contact = lazy(() => import("./routes/Contact")); // Lazy ładowanie komponentu
 const Register = lazy(() => import("./routes/Register")); // Lazy ładowanie komponentu
 const Login = lazy(() => import("./routes/Login")); // Lazy ładowanie komponentu
+const Dashboard = lazy(() => import("./routes/Dashboard")); // Lazy ładowanie komponentu
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
