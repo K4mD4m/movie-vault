@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { Rating, Typography, Button } from "@mui/material";
 
 interface Movie {
   id: number;
@@ -19,6 +20,7 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState<Movie | null>(null); // Stan do przechowywania danych filmu
   const [loading, setLoading] = useState<boolean>(true); // Stan ładowania
   const [error, setError] = useState<string>(""); // Stan błędu
+  const [userRating, setUserRating] = useState<number | null>(null); // Stan do przechowywania oceny użytkownika
 
   // Pobranie szczegółów filmu po załadowaniu komponentu
   useEffect(() => {
@@ -107,6 +109,45 @@ const MovieDetails = () => {
                 <span className="font-bold text-indigo-300">Genres:</span>{" "}
                 {movie.genres.map((g) => g.name).join(", ")}
               </p>
+              <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
+                Rate this movie:
+              </Typography>
+
+              <Rating
+                name="custom-raiting"
+                value={userRating}
+                onChange={(_, newValue) => setUserRating(newValue)}
+                max={10}
+                sx={{
+                  color: "gold",
+                  "& .MuiRating-iconEmpty": { color: "#555" },
+                }}
+              />
+
+              {userRating && (
+                <>
+                  <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
+                    You rated this movie: {userRating} / 10
+                  </Typography>
+                  <Button
+                    variant="text"
+                    size="small"
+                    onClick={() => setUserRating(null)}
+                    sx={{
+                      color: "#888",
+                      textTransform: "none",
+                      fontSize: "0.8rem",
+                      ml: 0,
+                      "&:hover": {
+                        color: "#ccc",
+                        TextDecoration: "underline",
+                      },
+                    }}
+                  >
+                    Clear Rating
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
