@@ -3,6 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Rating, Typography, Button } from "@mui/material";
+import {
+  saveUserRating,
+  getUserRating,
+  deleteUserRating,
+} from "../firebase/firestore";
+import { auth } from "../firebase/config";
 
 interface Movie {
   id: number;
@@ -27,16 +33,25 @@ const MovieDetails = () => {
     const fetchMovieDetails = async () => {
       try {
         const response = await fetch(
-          // Zapytanie do API TMDB o szczegóły filmu
           `https://api.themoviedb.org/3/movie/${id}?api_key=${
             import.meta.env.VITE_TMDB_API_KEY
           }&language=en-US`
         );
+
         if (!response.ok) {
           throw new Error("Failed to fetch movie details");
         }
-        const data: Movie = await response.json();
-        setMovie(data);
+
+        const movieData: Movie = await response.json();
+        setMovie(movieData);
+
+        if (auth.currentUser && movieData?.id) {
+          const userId = auth.currentUser.uid;
+          const userRatingData = await getUserRating(userId, movieData.id);
+          if (userRatingData?.rating) {
+            setUserRating(userRatingData.rating);
+          }
+        }
       } catch (err) {
         setError("Something went wrong while fetching movie details.");
       } finally {
@@ -46,6 +61,15 @@ const MovieDetails = () => {
 
     fetchMovieDetails();
   }, [id]);
+
+  useEffect(() => {
+    const saveRating = async () => {
+      if (auth.currentUser && movie && userRating !== null) {
+        await saveUserRating(auth.currentUser.uid, movie.id, userRating);
+      }
+    };
+    saveRating();
+  }, [userRating, movie]);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Ustawienie przewijania na górę strony (naprawiony błąd z przewijaniem do dołu)
@@ -132,7 +156,12 @@ const MovieDetails = () => {
                   <Button
                     variant="text"
                     size="small"
-                    onClick={() => setUserRating(null)}
+                    onClick={async () => {
+                      if (auth.currentUser && movie) {
+                        await deleteUserRating(auth.currentUser.uid, movie.id);
+                        setUserRating(null);
+                      }
+                    }}
                     sx={{
                       color: "#888",
                       textTransform: "none",
