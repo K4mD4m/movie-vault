@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -8,7 +8,7 @@ import {
   getUserRating,
   deleteUserRating,
 } from "../firebase/firestore";
-import { auth } from "../firebase/config";
+import { AuthContext } from "../context/AuthContext";
 
 interface Movie {
   id: number;
@@ -21,14 +21,15 @@ interface Movie {
 }
 
 const MovieDetails = () => {
-  const { id } = useParams<{ id: string }>(); // Pobranie parametru z URL
-  const navigate = useNavigate(); // Hook do nawigacji
-  const [movie, setMovie] = useState<Movie | null>(null); // Stan do przechowywania danych filmu
-  const [loading, setLoading] = useState<boolean>(true); // Stan ładowania
-  const [error, setError] = useState<string>(""); // Stan błędu
-  const [userRating, setUserRating] = useState<number | null>(null); // Stan do przechowywania oceny użytkownika
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+  const [userRating, setUserRating] = useState<number | null>(null);
 
-  // Pobranie szczegółów filmu po załadowaniu komponentu
+  const { user } = useContext(AuthContext); // Pobierz użytkownika z kontekstu
+
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
@@ -45,40 +46,38 @@ const MovieDetails = () => {
         const movieData: Movie = await response.json();
         setMovie(movieData);
 
-        if (auth.currentUser && movieData?.id) {
-          const userId = auth.currentUser.uid;
-          const userRatingData = await getUserRating(userId, movieData.id);
+        if (user && movieData?.id) {
+          const userRatingData = await getUserRating(user.uid, movieData.id);
           if (userRatingData?.rating) {
             setUserRating(userRatingData.rating);
           }
         }
       } catch (err) {
         setError("Something went wrong while fetching movie details.");
+        console.log(err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMovieDetails();
-  }, [id]);
+  }, [id, user]);
 
   useEffect(() => {
     const saveRating = async () => {
-      if (auth.currentUser && movie && userRating !== null) {
-        await saveUserRating(auth.currentUser.uid, movie.id, userRating);
+      if (user && movie && userRating !== null) {
+        await saveUserRating(user.uid, movie.id, userRating);
       }
     };
     saveRating();
-  }, [userRating, movie]);
+  }, [userRating, movie, user]);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Ustawienie przewijania na górę strony (naprawiony błąd z przewijaniem do dołu)
+    window.scrollTo(0, 0); // Resetuj przewijanie do góry
   }, []);
 
-  // Zwracamy spinner jeśli strona jest w stanie ładowania
   if (loading) return <LoadingSpinner />;
 
-  // Zwracamy komunikat o błędzie jeśli wystąpił
   if (error) {
     return (
       <div className="min-h-screen bg-black text-center text-xl p-10 text-red-500">
@@ -89,7 +88,6 @@ const MovieDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center py-10 px-4">
-      {/* Przycisk powrotu */}
       <div className="w-full max-w-4xl">
         <button
           onClick={() => navigate(-1)} // Powrót do poprzedniej strony
@@ -99,17 +97,14 @@ const MovieDetails = () => {
         </button>
       </div>
 
-      {/* Blok z filmem */}
       {movie && (
         <div className="w-full max-w-4xl bg-gray-900 bg-opacity-80 p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 backdrop-blur-md">
-          {/* Plakat filmu */}
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
             className="w-full md:w-1/3 rounded-lg shadow-md object-cover"
           />
 
-          {/* Opis filmu */}
           <div className="flex-1">
             <h1 className="text-4xl font-extrabold text-indigo-400">
               {movie.title}
@@ -125,57 +120,66 @@ const MovieDetails = () => {
               <p className="text-lg">
                 <span className="font-bold text-indigo-300">Rating:</span>{" "}
                 <span className="text-yellow-400 font-bold text-xl">
-                  {/* Zaokrąglenie oceny do 1 miejsca po przecinku */}
-                  {movie.vote_average.toFixed(1)} / 10{" "}
+                  {movie.vote_average.toFixed(1)} / 10
                 </span>
               </p>
               <p className="text-lg">
                 <span className="font-bold text-indigo-300">Genres:</span>{" "}
                 {movie.genres.map((g) => g.name).join(", ")}
               </p>
-              <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
-                Rate this movie:
-              </Typography>
 
-              <Rating
-                name="custom-raiting"
-                value={userRating}
-                onChange={(_, newValue) => setUserRating(newValue)}
-                max={10}
-                sx={{
-                  color: "gold",
-                  "& .MuiRating-iconEmpty": { color: "#555" },
-                }}
-              />
-
-              {userRating && (
+              {/* Tylko dla zalogowanych użytkowników */}
+              {user ? (
                 <>
-                  <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
-                    You rated this movie: {userRating} / 10
+                  <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
+                    Rate this movie:
                   </Typography>
-                  <Button
-                    variant="text"
-                    size="small"
-                    onClick={async () => {
-                      if (auth.currentUser && movie) {
-                        await deleteUserRating(auth.currentUser.uid, movie.id);
-                        setUserRating(null);
-                      }
-                    }}
+
+                  <Rating
+                    name="custom-rating"
+                    value={userRating}
+                    onChange={(_, newValue) => setUserRating(newValue)}
+                    max={10}
                     sx={{
-                      color: "#888",
-                      textTransform: "none",
-                      fontSize: "0.8rem",
-                      ml: 0,
-                      "&:hover": {
-                        color: "#ccc",
-                        TextDecoration: "underline",
-                      },
+                      color: "gold",
+                      "& .MuiRating-iconEmpty": { color: "#555" },
                     }}
-                  >
-                    Clear Rating
-                  </Button>
+                  />
+
+                  {userRating && (
+                    <>
+                      <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
+                        You rated this movie: {userRating} / 10
+                      </Typography>
+                      <Button
+                        variant="text"
+                        size="small"
+                        onClick={async () => {
+                          if (user && movie) {
+                            await deleteUserRating(user.uid, movie.id);
+                            setUserRating(null);
+                          }
+                        }}
+                        sx={{
+                          color: "#888",
+                          textTransform: "none",
+                          fontSize: "0.8rem",
+                          ml: 0,
+                          "&:hover": {
+                            color: "#ccc",
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        Clear Rating
+                      </Button>
+                    </>
+                  )}
                 </>
+              ) : (
+                <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
+                  Please log in to rate this movie.
+                </Typography>
               )}
             </div>
           </div>

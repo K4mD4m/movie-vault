@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import LoadingSpinner from "./components/LoadingSpinner";
+import PrivateRoute from "./components/PrivateRoute";
 
 const Home = lazy(() => import("./routes/Home")); // Lazy ładowanie komponentu
 const MovieDetails = lazy(() => import("./routes/MovieDetails")); // Lazy ładowanie komponentu
@@ -24,7 +25,11 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={<PrivateRoute element={<Dashboard />} />}
+          />
+
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
