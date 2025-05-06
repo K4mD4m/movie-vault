@@ -73,7 +73,7 @@ const MovieDetails = () => {
   }, [userRating, movie, user]);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Resetuj przewijanie do góry
+    window.scrollTo(0, 0); // Resetuj przewijanie do góry (błąd)
   }, []);
 
   if (loading) return <LoadingSpinner />;

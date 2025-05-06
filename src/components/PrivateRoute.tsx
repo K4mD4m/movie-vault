@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -9,7 +10,7 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading) return null; // lub np. <LoadingSpinner />
+  if (loading) return <LoadingSpinner />;
   return user ? element : <Navigate to="/login" />;
 };
 
