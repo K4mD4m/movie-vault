@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false); // Stan do obsługi hamburger menu
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useContext(AuthContext);
 
   return (
     <nav className="bg-gray-900 text-white p-4 shadow-lg relative z-50">
@@ -16,7 +18,7 @@ const Navbar = () => {
         </Link>
 
         {/* Menu dla desktopu */}
-        <div className="hidden md:flex space-x-6 ml-auto mr-6">
+        <div className="hidden md:flex space-x-6 ml-auto mr-6 items-center">
           <Link
             to="/"
             className="hover:text-indigo-400 text-2xl transition duration-300"
@@ -34,6 +36,12 @@ const Navbar = () => {
             className="hover:text-indigo-400 text-2xl transition duration-300"
           >
             Contact
+          </Link>
+          <Link
+            to={user ? "/dashboard" : "/login"}
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1 px-4 rounded transition duration-300 text-xl ml-4"
+          >
+            {user ? "Dashboard" : "Login"}
           </Link>
         </div>
 
@@ -90,6 +98,13 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
         >
           Contact
+        </Link>
+        <Link
+          to={user ? "/dashboard" : "/login"}
+          className="block text-center mt-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded transition duration-300 text-2xl"
+          onClick={() => setMenuOpen(false)}
+        >
+          {user ? "Dashboard" : "Login"}
         </Link>
       </div>
     </nav>

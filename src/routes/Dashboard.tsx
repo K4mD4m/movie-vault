@@ -9,10 +9,12 @@ import {
   Grid,
   CircularProgress,
   Alert,
+  Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllUserRatings } from "../firebase/firestore";
 import { auth } from "../firebase/config";
+import { logout } from "../firebase/auth";
 
 interface RatedMovie {
   movieId: number;
@@ -25,6 +27,16 @@ const Dashboard: React.FC = () => {
   const [movies, setMovies] = useState<RatedMovie[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   useEffect(() => {
     const fetchRatedMovies = async () => {
@@ -73,6 +85,21 @@ const Dashboard: React.FC = () => {
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#1e1e2f", py: 6 }}>
       <Container maxWidth="lg">
+        <Box display="flex" justifyContent="flex-end" mb={2}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleLogout}
+            sx={{
+              backgroundColor: "#ff5c5c",
+              "&:hover": { backgroundColor: "#e64545" },
+              fontWeight: "bold",
+            }}
+          >
+            Logout
+          </Button>
+        </Box>
+
         <Typography
           variant="h3"
           sx={{

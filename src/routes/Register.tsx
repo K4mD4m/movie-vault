@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser, loginWithGoogle } from "../firebase/auth";
 import {
@@ -10,6 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 import Particles from "../blocks/Backgrounds/Particles/Particles";
+import { AuthContext } from "../context/AuthContext";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,13 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
