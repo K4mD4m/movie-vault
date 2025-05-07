@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Typography,
   Container,
   Box,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
   CircularProgress,
   Alert,
   Button,
+  ButtonGroup,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAllUserRatings } from "../firebase/firestore";
 import { auth } from "../firebase/config";
 import { logout } from "../firebase/auth";
+import MovieCard from "../components/MovieCard";
 
 interface RatedMovie {
   movieId: number;
   rating: number;
   title: string;
   poster_path: string;
+  overview: string;
 }
+
+const MOVIES_PER_PAGE = 10;
 
 const Dashboard: React.FC = () => {
   const [movies, setMovies] = useState<RatedMovie[]>([]);
+  const [visibleCount, setVisibleCount] = useState(MOVIES_PER_PAGE);
+  const [sortOption, setSortOption] = useState<
+    "default" | "topRated" | "alphabetical"
+  >("default");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const handleLogout = async () => {
     try {
@@ -66,6 +73,7 @@ const Dashboard: React.FC = () => {
               rating: r.rating,
               title: data.title,
               poster_path: data.poster_path,
+              overview: data.overview,
             };
           })
         );
@@ -81,6 +89,43 @@ const Dashboard: React.FC = () => {
 
     fetchRatedMovies();
   }, []);
+
+  useEffect(() => {
+    const loader = loaderRef.current;
+    if (!loader) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setVisibleCount((prev) =>
+            Math.min(prev + MOVIES_PER_PAGE, movies.length)
+          );
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
+
+    observer.observe(loader);
+
+    return () => {
+      if (loader) observer.unobserve(loader);
+    };
+  }, [movies.length]);
+
+  const sortedMovies = [...movies].sort((a, b) => {
+    if (sortOption === "topRated") {
+      return b.rating - a.rating;
+    }
+    if (sortOption === "alphabetical") {
+      return a.title.localeCompare(b.title);
+    }
+    return 0;
+  });
 
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#1e1e2f", py: 6 }}>
@@ -121,7 +166,7 @@ const Dashboard: React.FC = () => {
             textAlign: "center",
           }}
         >
-          Your Recently Rated Movies
+          Your Recently Rated Movies:
         </Typography>
 
         {loading && (
@@ -146,63 +191,51 @@ const Dashboard: React.FC = () => {
         )}
 
         {!loading && !error && movies.length > 0 && (
-          <Grid container spacing={3}>
-            {movies.map((movie) => (
-              <Grid item xs={12} sm={6} md={4} key={movie.movieId}>
-                <Card
-                  sx={{
-                    backgroundColor: "#2a2a3d",
-                    borderRadius: 3,
-                    boxShadow: 4,
-                    overflow: "hidden",
-                  }}
+          <>
+            <Box display="flex" justifyContent="center" mb={3}>
+              <ButtonGroup variant="outlined">
+                <Button
+                  variant={sortOption === "default" ? "contained" : "outlined"}
+                  onClick={() => setSortOption("default")}
                 >
-                  <CardMedia
-                    component="img"
-                    height="260"
-                    image={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                    alt={movie.title}
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ color: "white", fontWeight: 600 }}
-                    >
-                      {movie.title}
-                    </Typography>
-                    <Typography sx={{ color: "#bbb" }}>
-                      Your Rating: {movie.rating}/10
-                    </Typography>
+                  Default
+                </Button>
+                <Button
+                  variant={sortOption === "topRated" ? "contained" : "outlined"}
+                  onClick={() => setSortOption("topRated")}
+                >
+                  Top Rated
+                </Button>
+                <Button
+                  variant={
+                    sortOption === "alphabetical" ? "contained" : "outlined"
+                  }
+                  onClick={() => setSortOption("alphabetical")}
+                >
+                  A-Z
+                </Button>
+              </ButtonGroup>
+            </Box>
 
-                    <Box mt={2}>
-                      <Link
-                        to={`/movie/${movie.movieId}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Box
-                          sx={{
-                            backgroundColor: "rgb(97, 95, 255)",
-                            color: "white",
-                            fontWeight: "bold",
-                            px: 2,
-                            py: 1,
-                            borderRadius: 2,
-                            textAlign: "center",
-                            transition: "background-color 0.3s",
-                            "&:hover": {
-                              backgroundColor: "rgba(75, 0, 130, 0.8)",
-                            },
-                          }}
-                        >
-                          View Details
-                        </Box>
-                      </Link>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+            <Grid container spacing={4} justifyContent="center">
+              {sortedMovies.slice(0, visibleCount).map((movie) => (
+                <Grid item xs={6} sm={6} md={2.4} key={movie.movieId}>
+                  <MovieCard
+                    id={movie.movieId}
+                    title={movie.title}
+                    poster_path={movie.poster_path}
+                    overview={movie.overview}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+
+            {visibleCount < movies.length && (
+              <Box ref={loaderRef} mt={4} textAlign="center">
+                <CircularProgress sx={{ color: "#667eea" }} />
+              </Box>
+            )}
+          </>
         )}
       </Container>
     </Box>
