@@ -27,6 +27,7 @@ const MovieDetails = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [hoverRating, setHoverRating] = useState<number>(-1);
 
   const { user } = useContext(AuthContext); // Pobierz użytkownika z kontekstu
 
@@ -73,7 +74,7 @@ const MovieDetails = () => {
   }, [userRating, movie, user]);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Resetuj przewijanie do góry (błąd)
+    window.scrollTo(0, 0);
   }, []);
 
   if (loading) return <LoadingSpinner />;
@@ -90,7 +91,7 @@ const MovieDetails = () => {
     <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center py-10 px-4">
       <div className="w-full max-w-4xl">
         <button
-          onClick={() => navigate(-1)} // Powrót do poprzedniej strony
+          onClick={() => navigate(-1)}
           className="flex items-center text-indigo-400 hover:text-indigo-300 transition mb-6 text-lg font-semibold cursor-pointer"
         >
           <ArrowLeft className="mr-2" /> Back to previous page
@@ -128,7 +129,6 @@ const MovieDetails = () => {
                 {movie.genres.map((g) => g.name).join(", ")}
               </p>
 
-              {/* Tylko dla zalogowanych użytkowników */}
               {user ? (
                 <>
                   <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
@@ -138,7 +138,11 @@ const MovieDetails = () => {
                   <Rating
                     name="custom-rating"
                     value={userRating}
-                    onChange={(_, newValue) => setUserRating(newValue)}
+                    onChange={(_, newValue) => {
+                      setUserRating(newValue);
+                      setHoverRating(-1);
+                    }}
+                    onChangeActive={(_, newHover) => setHoverRating(newHover)}
                     max={10}
                     sx={{
                       color: "gold",
@@ -146,9 +150,39 @@ const MovieDetails = () => {
                     }}
                   />
 
-                  {userRating && (
-                    <>
-                      <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
+                  <div
+                    style={{
+                      height: "32px",
+                      marginTop: "8px",
+                      position: "relative",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: hoverRating !== -1 ? "flex" : "none",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="body2" sx={{ color: "#bbb" }}>
+                        Your rating: {hoverRating} / 10
+                      </Typography>
+                    </div>
+
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display:
+                          hoverRating === -1 && userRating !== null
+                            ? "flex"
+                            : "none",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <Typography variant="body2" sx={{ color: "#bbb" }}>
                         You rated this movie: {userRating} / 10
                       </Typography>
                       <Button
@@ -164,7 +198,8 @@ const MovieDetails = () => {
                           color: "#888",
                           textTransform: "none",
                           fontSize: "0.8rem",
-                          ml: 0,
+                          minWidth: 0,
+                          padding: 0,
                           "&:hover": {
                             color: "#ccc",
                             textDecoration: "underline",
@@ -173,13 +208,48 @@ const MovieDetails = () => {
                       >
                         Clear Rating
                       </Button>
-                    </>
-                  )}
+                    </div>
+
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display:
+                          hoverRating === -1 && userRating === null
+                            ? "flex"
+                            : "none",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="body2" sx={{ color: "#bbb" }}>
+                        Click a star to rate.
+                      </Typography>
+                    </div>
+                  </div>
                 </>
               ) : (
-                <Typography variant="body2" sx={{ color: "bbb", mt: 1 }}>
-                  Please log in to rate this movie.
-                </Typography>
+                <>
+                  <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
+                    Rate this movie:
+                  </Typography>
+
+                  <Rating
+                    name="custom-rating"
+                    value={userRating}
+                    onChange={(_, newValue) => setUserRating(newValue)}
+                    onChangeActive={(_, newHover) => setHoverRating(newHover)}
+                    max={10}
+                    sx={{
+                      color: "gold",
+                      "& .MuiRating-iconEmpty": { color: "#555" },
+                    }}
+                    readOnly
+                  />
+
+                  <Typography variant="body1" sx={{ color: "#bbb" }}>
+                    Please log in to rate this movie.
+                  </Typography>
+                </>
               )}
             </div>
           </div>
