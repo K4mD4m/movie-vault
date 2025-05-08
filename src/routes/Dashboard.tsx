@@ -46,6 +46,12 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!auth.currentUser) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     const fetchRatedMovies = async () => {
       if (!auth.currentUser) return;
       const userId = auth.currentUser.uid;
