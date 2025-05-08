@@ -25,23 +25,23 @@ interface Person {
 }
 
 const Home: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>([]); // Popularne filmy
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]); // Najlepiej oceniane filmy
-  const [trendingPeople, setTrendingPeople] = useState<Person[]>([]); // Osoby w trendach
+  const [movies, setMovies] = useState<Movie[]>([]); // Popular movies
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]); // Top rated movies
+  const [trendingPeople, setTrendingPeople] = useState<Person[]>([]); // Trending people
 
-  const [loadingMovies, setLoadingMovies] = useState<boolean>(false); // Ładowanie filmów
-  const [errorMovies, setErrorMovies] = useState<string | null>(null); // Komunikat o błędzie
+  const [loadingMovies, setLoadingMovies] = useState<boolean>(false); // Loading movies
+  const [errorMovies, setErrorMovies] = useState<string | null>(null); // error message
 
-  const [loadingTopRated, setLoadingTopRated] = useState<boolean>(false); // Ładowanie najlepiej ocenianych filmów
-  const [errorTopRated, setErrorTopRated] = useState<string | null>(null); // Komunikat o błędzie
+  const [loadingTopRated, setLoadingTopRated] = useState<boolean>(false); // Loading top rated movies
+  const [errorTopRated, setErrorTopRated] = useState<string | null>(null); // error message
 
-  const [loadingPeople, setLoadingPeople] = useState<boolean>(false); // Ładowanie osób
-  const [errorPeople, setErrorPeople] = useState<string | null>(null); // Komunikat o błędzie
+  const [loadingPeople, setLoadingPeople] = useState<boolean>(false); // Loading trending people
+  const [errorPeople, setErrorPeople] = useState<string | null>(null); // error message
 
-  const [visibleCount, setVisibleCount] = useState(5); // Początkowo 5 filmów w top 20
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // Ładowanie większej ilości filmów
+  const [visibleCount, setVisibleCount] = useState(5); // Visible movies count
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // State to manage loading additional movies
 
-  // Pobieranie danych z API
+  // Fetching movies, top rated movies and trending people when the component mounts
   useEffect(() => {
     const loadMovies = async () => {
       setLoadingMovies(true);
@@ -56,7 +56,6 @@ const Home: React.FC = () => {
       }
     };
 
-    // Pobieranie najlepiej ocenianych filmów
     const loadTopRatedMovies = async () => {
       setLoadingTopRated(true);
       setErrorTopRated(null);
@@ -72,7 +71,6 @@ const Home: React.FC = () => {
       }
     };
 
-    // Pobieranie osób w trendach
     const loadTrendingPeople = async () => {
       setLoadingPeople(true);
       setErrorPeople(null);
@@ -91,7 +89,7 @@ const Home: React.FC = () => {
     loadTrendingPeople();
   }, []);
 
-  // Funkcja do ładowania kolejnych 5 filmów
+  // Function to load more top rated movies
   const loadMoreTopRated = () => {
     if (!isLoadingMore) {
       setIsLoadingMore(true);
@@ -102,14 +100,13 @@ const Home: React.FC = () => {
     }
   };
 
-  // Zwracamy spinner jeśli strona jest w stanie ładowania
+  // Spinner loading state
   if (loadingMovies || loadingTopRated || loadingPeople) {
     return <LoadingSpinner />;
   }
 
   return (
     <div className="relative bg-gray-950 min-h-screen py-8 px-4">
-      {/* Tło cząsteczki */}
       <div
         style={{
           width: "100%",
@@ -132,7 +129,6 @@ const Home: React.FC = () => {
         />
       </div>
 
-      {/* Główna treść */}
       <div className="relative z-10 mt-16">
         <h1 className="text-white text-4xl font-extrabold text-center mb-4 relative">
           <span className="text-indigo-400">
@@ -140,7 +136,6 @@ const Home: React.FC = () => {
           </span>
         </h1>
 
-        {/* Opis */}
         <p className="text-white text-lg text-center mb-8 px-6 md:px-0 max-w-3xl mx-auto">
           Discover hidden gems, trending blockbusters, and timeless classics all
           in one place. Browse through an extensive collection of films, explore
@@ -148,7 +143,6 @@ const Home: React.FC = () => {
           anywhere!
         </p>
 
-        {/* Przycisk do przekierowania na /search */}
         <div className="text-center mb-8">
           <Box textAlign="center" mb={8}>
             <Button
@@ -174,16 +168,15 @@ const Home: React.FC = () => {
           </Box>
         </div>
 
-        {/* Sekcja filmów popularnych */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-white">Trending Now:</h2>
           {loadingMovies ? (
-            <p className="text-white text-center">Loading...</p> // Prosty komunikat ładowania
+            <p className="text-white text-center">Loading...</p>
           ) : errorMovies ? (
-            <p className="text-center text-red-500">{errorMovies}</p> // Komunikat o błędzie w sekcji
+            <p className="text-center text-red-500">{errorMovies}</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mt-4">
-              {/* Wyświetlamy 5 filmów */}
+              {/* 5 movies */}
               {movies.slice(0, 5).map((movie) => (
                 <MovieCard
                   key={movie.id}
@@ -197,18 +190,16 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        {/* Osoby w trendach */}
         <div className="mb-16 mt-16">
           <h2 className="text-3xl font-bold text-white mb-6 text-center">
             Trending People:
           </h2>
           {loadingPeople ? (
-            <p className="text-white text-center">Loading...</p> // Prosty komunikat ładowania
+            <p className="text-white text-center">Loading...</p>
           ) : errorPeople ? (
-            <p className="text-center text-red-500">{errorPeople}</p> // Komunikat o błędzie w sekcji
+            <p className="text-center text-red-500">{errorPeople}</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-10 lg:gap-12">
-              {/* Wyświetlamy 6 osób */}
               {trendingPeople.slice(0, 6).map((person) => (
                 <div
                   key={person.id}
@@ -232,15 +223,15 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        {/* Top 20 filmów */}
+        {/* Top 20 movies */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-white mb-4">
             Top 20 Rated Movies:
           </h2>
           {loadingTopRated ? (
-            <p className="text-white text-center">Loading...</p> // Prosty komunikat ładowania
+            <p className="text-white text-center">Loading...</p>
           ) : errorTopRated ? (
-            <p className="text-center text-red-500">{errorTopRated}</p> // Komunikat o błędzie w sekcji
+            <p className="text-center text-red-500">{errorTopRated}</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
               {topRatedMovies
@@ -262,8 +253,8 @@ const Home: React.FC = () => {
                 ))}
             </div>
           )}
-          {/* Przycisk do ładowania większej ilości filmów */}
-          {visibleCount < 20 && ( // Jeśli widoczne jest mniej niż 20 filmów
+          {/* Button for loading more movies */}
+          {visibleCount < 20 && ( // if visibleCount is less than 20
             <div className="text-center mt-8">
               <Box textAlign="center" mt={8}>
                 <Button

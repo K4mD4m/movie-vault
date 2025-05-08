@@ -8,7 +8,7 @@ const ErrorPage: React.FC = () => {
         Not Found
       </h1>
       <Link to="/">
-        <button className="bg-indigo-500 text-white px-4 py-2 md:px-6 md:py-2 rounded-lg hover:bg-indigo-600 transition duration-300 text-lg mt-4">
+        <button className="bg-indigo-500 text-white px-4 py-2 md:px-6 md:py-2 rounded-lg hover:bg-indigo-600 transition duration-300 text-lg mt-4 cursor-pointer">
           Go to Home
         </button>
       </Link>
