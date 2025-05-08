@@ -12,7 +12,6 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-gray-950 flex justify-center items-center px-6">
       <Container maxWidth="md">
-        {/* Nagłówek */}
         <Typography
           variant="h4"
           align="center"
@@ -22,7 +21,6 @@ const Contact = () => {
           Built with ❤️ by Me
         </Typography>
 
-        {/* Sekcja z informacjami */}
         <Paper
           elevation={3}
           sx={{
@@ -35,7 +33,6 @@ const Contact = () => {
           }}
           className="shadow-lg"
         >
-          {/* Avatar */}
           <Avatar
             alt="Your Name"
             src="https://avatars.githubusercontent.com/u/175142138?v=4"
@@ -53,7 +50,6 @@ const Contact = () => {
             }}
           />
 
-          {/* Bio */}
           <Typography variant="h5" gutterBottom>
             Hi, I'm Damian!
           </Typography>
@@ -62,7 +58,6 @@ const Contact = () => {
             and Tailwind. Feel free to reach out or check out my projects!
           </Typography>
 
-          {/* Icons */}
           <Stack direction="row" justifyContent="center" spacing={3}>
             <IconButton
               component="a"

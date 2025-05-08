@@ -22,7 +22,7 @@ interface Movie {
   overview: string;
 }
 
-// Lista gatunków filmowych
+// List of genres
 const genres = [
   { id: 28, name: "Action" },
   { id: 35, name: "Comedy" },
@@ -40,15 +40,15 @@ const genres = [
 const Search = () => {
   const [moviesByGenre, setMoviesByGenre] = useState<{
     [key: string]: Movie[];
-  }>({}); // Stan dla filmów według gatunku
-  const [searchResults, setSearchResults] = useState<Movie[]>([]); // Stan dla wyników wyszukiwania
-  const [isSearching, setIsSearching] = useState(false); // Stan dla wyszukiwania
-  const [loading, setLoading] = useState(true); // Stan dla ładowania
-  const [error, setError] = useState(false); // Stan dla błędu
-  const [searchLoading, setSearchLoading] = useState(false); // Stan dla ładowania wyszukiwania
-  const [selectedGenre, setSelectedGenre] = useState<string>(""); // Stan dla wybranego gatunku
+  }>({}); // State for movies by genre
+  const [searchResults, setSearchResults] = useState<Movie[]>([]); // State for search results
+  const [isSearching, setIsSearching] = useState(false); // State for search state
+  const [loading, setLoading] = useState(true); // State for loading state
+  const [error, setError] = useState(false); // State for error state
+  const [searchLoading, setSearchLoading] = useState(false); // State for search loading state
+  const [selectedGenre, setSelectedGenre] = useState<string>(""); // State for selected genre
 
-  // Pobieranie filmów według gatunku
+  // Function to fetch movies by genre
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -68,7 +68,7 @@ const Search = () => {
     fetchMovies();
   }, []);
 
-  // Obsługa wyszukiwania
+  // Handle search input
   const handleSearch = async (query: string) => {
     if (query.trim() === "") {
       setIsSearching(false);
@@ -78,21 +78,21 @@ const Search = () => {
     setSearchLoading(true);
     try {
       const results = await searchMovies(query);
-      setSearchResults(results || []); // ustaw wyniki wyszukiwania na wyniki z API lub pustą tablicę
+      setSearchResults(results || []); // Empty array if no results found
     } catch (err) {
       console.error("Search API error:", err);
-      setSearchResults([]); // ustaw wyniki wyszukiwania na pustą tablicę w przypadku błędu
+      setSearchResults([]); // Empty array if error occurs
     } finally {
       setSearchLoading(false);
     }
   };
 
-  // Obsługa zmiany gatunku
+  // Handle genre change
   const handleGenreChange = (event: SelectChangeEvent<string>) => {
     setSelectedGenre(event.target.value);
   };
 
-  // Komponenty dla strzałek w karuzeli
+  // Custom arrows for the slider
   interface ArrowProps {
     className?: string;
     style?: React.CSSProperties;
@@ -139,7 +139,7 @@ const Search = () => {
     );
   };
 
-  // Ustawienia dla karuzeli
+  // Slider settings
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -154,12 +154,10 @@ const Search = () => {
     ],
   };
 
-  // Zwracamy spinner jeśli strona jest w stanie ładowania
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // Zwracamy komunikat o błędzie
   if (error) {
     return (
       <div className="bg-gray-950 min-h-screen p-6 text-white text-center">
@@ -172,21 +170,21 @@ const Search = () => {
   }
 
   return (
-    // Wyszukiwarka filmów
     <div className="bg-gray-950 min-h-screen p-6">
       <h1 className="text-white text-4xl font-bold text-center mb-6 mt-16">
         Find Your Movie:
       </h1>
+      {/* Search bar */}
       <SearchBar onSearch={handleSearch} />
 
-      {/* Sekcja rekomendowanych filmów */}
-      {!isSearching && ( // Jeśli nie jesteśmy w stanie wyszukiwania to wyświetlamy rekomendowane filmy
+      {/* Recomended movies */}
+      {!isSearching && ( // If not searching, show recommended movies
         <>
           <h2 className="text-white text-3xl font-semibold text-center mt-16 lg:mt-24">
             Or explore our recommended Movies...
           </h2>
 
-          {/* Dropdown menu dla gatunków */}
+          {/* Dropdown menu */}
           <div className="text-center mb-8 mt-4">
             <FormControl
               fullWidth
@@ -272,12 +270,11 @@ const Search = () => {
         </>
       )}
 
-      {/* Sekcja wyników wyszukiwania */}
-      {isSearching ? ( // Jeśli jesteśmy w stanie wyszukiwania to wyświetlamy wyniki wyszukiwania
+      {isSearching ? (
         <div className="mt-8">
           <h2 className="text-white text-2xl font-semibold mb-4">
             <div className="w-full max-w-4xl">
-              {/* Przycisk powrotu do wyszukiwania */}
+              {/* Back button */}
               <button
                 onClick={() => {
                   setIsSearching(false);
@@ -290,13 +287,13 @@ const Search = () => {
             </div>
             Search Results:
           </h2>
-          {searchLoading ? ( // Jeśli trwa ładowanie wyników wyszukiwania to wyświetlamy prosty komunikat
+          {searchLoading ? (
             <div className="text-white">Loading...</div>
           ) : Array.isArray(searchResults) && searchResults.length === 0 ? (
-            <div className="text-white">No movies found for your search.</div> // Jeśli nie znaleziono filmów to wyświetlamy komunikat
+            <div className="text-white">No movies found for your search.</div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {/* Wyświetlamy wyniki wyszukiwania */}
+              {/* Searching results */}
               {searchResults.map((movie) => (
                 <MovieCard
                   key={movie.id}
@@ -309,7 +306,7 @@ const Search = () => {
             </div>
           )}
         </div>
-      ) : selectedGenre ? ( // Jeśli wybrano gatunek to wyświetlamy filmy dla tego gatunku
+      ) : selectedGenre ? ( // Selected genre movies
         <div className="mt-8">
           <h2 className="text-white text-2xl font-semibold mb-4">
             {selectedGenre}
@@ -328,7 +325,6 @@ const Search = () => {
               ))}
             </div>
           ) : (
-            // Jeśli pojawi się błąd to wyświetlamy komunikat
             <p className="text-red-500">
               There was an issue fetching movies for {selectedGenre}. Please try
               again later or contact support.
@@ -337,9 +333,9 @@ const Search = () => {
         </div>
       ) : (
         genres.slice(0, 3).map((genre) => {
-          // Wyświetlamy filmy dla pierwszych trzech gatunków
+          // First three genres
           const movies = moviesByGenre[genre.name];
-          const isEmpty = !Array.isArray(movies) || movies.length === 0; // Sprawdzamy czy filmy dla danego gatunku istnieją
+          const isEmpty = !Array.isArray(movies) || movies.length === 0; // Check if movies are empty
 
           return (
             <div key={genre.id} className="mb-8">
@@ -349,11 +345,10 @@ const Search = () => {
               {isEmpty ? (
                 <div className="text-red-500">
                   Not found. Please try again later or contact support.
-                </div> // Jeśli nie znaleziono filmów to wyświetlamy komunikat
+                </div>
               ) : (
                 <Slider {...sliderSettings}>
                   {" "}
-                  {/* Karuzela dla filmów */}
                   {movies?.map((movie) => (
                     <div key={movie.id} className="px-2">
                       <MovieCard

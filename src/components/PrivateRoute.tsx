@@ -8,6 +8,7 @@ interface PrivateRouteProps {
   element: ReactNode;
 }
 
+/// PrivateRoute component to protect routes that require authentication
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   const { user, loading } = useContext(AuthContext);
 

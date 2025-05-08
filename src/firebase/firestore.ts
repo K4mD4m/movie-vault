@@ -8,14 +8,14 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-// Typ danych jednej oceny filmu
+// Interface for user rating
 export interface UserRating {
   movieId: number;
   rating: number;
   timestamp?: Date;
 }
 
-// Zapisz ocenę użytkownika
+// Save user rating for a movie
 export const saveUserRating = async (
   userId: string,
   movieId: number,
@@ -29,7 +29,7 @@ export const saveUserRating = async (
   });
 };
 
-// Pobierz ocenę jednego filmu danego użytkownika
+// Get user rating for a specific movie
 export const getUserRating = async (
   userId: string,
   movieId: number
@@ -39,7 +39,7 @@ export const getUserRating = async (
   return docSnap.exists() ? (docSnap.data() as UserRating) : null;
 };
 
-// Usuń ocenę
+// Delete user rating for a movie
 export const deleteUserRating = async (
   userId: string,
   movieId: number
@@ -48,7 +48,7 @@ export const deleteUserRating = async (
   await deleteDoc(ratingRef);
 };
 
-// Pobierz wszystkie oceny danego użytkownika
+// Get all user ratings
 export const getAllUserRatings = async (
   userId: string
 ): Promise<UserRating[]> => {

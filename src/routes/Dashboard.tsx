@@ -23,19 +23,20 @@ interface RatedMovie {
   overview: string;
 }
 
-const MOVIES_PER_PAGE = 10;
+const MOVIES_PER_PAGE = 10; // Number of movies to load initially and on scroll
 
 const Dashboard: React.FC = () => {
-  const [movies, setMovies] = useState<RatedMovie[]>([]);
-  const [visibleCount, setVisibleCount] = useState(MOVIES_PER_PAGE);
+  const [movies, setMovies] = useState<RatedMovie[]>([]); // State to store rated movies
+  const [visibleCount, setVisibleCount] = useState(MOVIES_PER_PAGE); // State to manage the number of visible movies
   const [sortOption, setSortOption] = useState<
     "default" | "topRated" | "alphabetical"
-  >("default");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const loaderRef = useRef<HTMLDivElement | null>(null);
+  >("default"); // State to manage sorting option
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [error, setError] = useState<string | null>(null); // State to manage error messages
+  const navigate = useNavigate(); // Hook to navigate between routes
+  const loaderRef = useRef<HTMLDivElement | null>(null); // Ref to the loader element
 
+  // Function to handle logout
   const handleLogout = async () => {
     try {
       await logout();
@@ -45,12 +46,14 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Effect to check if user is authenticated
   useEffect(() => {
     if (!auth.currentUser) {
       navigate("/login");
     }
   }, [navigate]);
 
+  // Effect to fetch rated movies from Firestore
   useEffect(() => {
     const fetchRatedMovies = async () => {
       if (!auth.currentUser) return;
@@ -96,6 +99,7 @@ const Dashboard: React.FC = () => {
     fetchRatedMovies();
   }, []);
 
+  // Effect to handle infinite scroll
   useEffect(() => {
     const loader = loaderRef.current;
     if (!loader) return;
@@ -123,6 +127,7 @@ const Dashboard: React.FC = () => {
     };
   }, [movies.length]);
 
+  // Sort movies based on the selected option
   const sortedMovies = [...movies].sort((a, b) => {
     if (sortOption === "topRated") {
       return b.rating - a.rating;

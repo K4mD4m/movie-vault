@@ -13,21 +13,23 @@ import Particles from "../blocks/Backgrounds/Particles/Particles";
 import { AuthContext } from "../context/AuthContext";
 
 const Register: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState(""); // State to store email input
+  const [password, setPassword] = useState(""); // State to store password input
+  const [confirmPassword, setConfirmPassword] = useState(""); // State to store confirm password input
+  const [error, setError] = useState<string | null>(null); // State to manage error messages
+  const [loading, setLoading] = useState(false); // State to manage loading state
 
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const navigate = useNavigate(); // Hook to navigate between routes
+  const { user } = useContext(AuthContext); // Access user context from AuthContext
 
+  // Effect to redirect authenticated users to the dashboard
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
   }, [user, navigate]);
 
+  // Function to handle registration form submission
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -52,6 +54,7 @@ const Register: React.FC = () => {
     }
   };
 
+  // Function to handle Google sign-up
   const handleGoogleSignUp = async () => {
     try {
       setLoading(true);

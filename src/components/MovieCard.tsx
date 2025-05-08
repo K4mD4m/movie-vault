@@ -16,9 +16,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
   poster_path,
   overview,
 }) => {
-  const { user } = useContext(AuthContext);
-  const [userRating, setUserRating] = useState<number | null>(null);
+  const { user } = useContext(AuthContext); // Get the user from the context
+  const [userRating, setUserRating] = useState<number | null>(null); // State to store user rating
 
+  // Fetch user rating from Firestore when the component mounts or when user or id changes
   useEffect(() => {
     const fetchRating = async () => {
       if (user) {
@@ -34,7 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
 
   return (
     <div className="group relative rounded-lg overflow-hidden bg-gray-800 bg-opacity-70 hover:bg-opacity-80 shadow-xl transition duration-500 w-full max-w-64 sm:max-w-72 lg:max-w-xs mx-auto">
-      {/* Plakat filmu */}
+      {/* Movie poster */}
       <div className="relative w-full aspect-[2/3]">
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
@@ -42,7 +43,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           className="object-fill w-full h-full"
         />
 
-        {/* Ocena użytkownika */}
+        {/* User rating */}
         {userRating !== null && (
           <div className="absolute top-2 right-2 bg-indigo-500 text-white text-xs sm:text-sm px-2 py-1 rounded-full shadow-lg">
             Your Rating: {userRating}/10
@@ -50,7 +51,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
         )}
       </div>
 
-      {/* Tytuł i opis */}
+      {/* Title and overview */}
       <div className="p-3 sm:p-4 text-white">
         <h3 className="text-base sm:text-lg font-semibold text-indigo-400 group-hover:text-white transition duration-200 line-clamp-1">
           {title}

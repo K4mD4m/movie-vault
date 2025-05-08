@@ -21,16 +21,17 @@ interface Movie {
 }
 
 const MovieDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
-  const [userRating, setUserRating] = useState<number | null>(null);
-  const [hoverRating, setHoverRating] = useState<number>(-1);
+  const { id } = useParams<{ id: string }>(); // Get the movie ID from the URL parameters
+  const navigate = useNavigate(); // Hook to navigate between routes
+  const [movie, setMovie] = useState<Movie | null>(null); // State to store movie details
+  const [loading, setLoading] = useState<boolean>(true); // State to manage loading state
+  const [error, setError] = useState<string>(""); // State to manage error messages
+  const [userRating, setUserRating] = useState<number | null>(null); // State to store user rating
+  const [hoverRating, setHoverRating] = useState<number>(-1); // State to manage hover rating
 
-  const { user } = useContext(AuthContext); // Pobierz użytkownika z kontekstu
+  const { user } = useContext(AuthContext); // Get the user from the context
 
+  // Function to handle back navigation
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
@@ -64,6 +65,7 @@ const MovieDetails = () => {
     fetchMovieDetails();
   }, [id, user]);
 
+  // Function to save user rating to Firestore
   useEffect(() => {
     const saveRating = async () => {
       if (user && movie && userRating !== null) {

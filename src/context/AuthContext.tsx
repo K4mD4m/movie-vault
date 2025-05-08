@@ -6,6 +6,7 @@ export type AuthContextType = {
   loading: boolean;
 };
 
+// Create a context for authentication with default values
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,

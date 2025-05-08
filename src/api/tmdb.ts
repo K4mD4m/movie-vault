@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"; // Import axios for making HTTP requests
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 });
 
 
-// Pobieranie popularnych filmów
+// Popular movies
 export const fetchPopularMovies = async () => {
   try {
     const response = await axiosInstance.get(`/movie/popular`);
@@ -22,7 +22,7 @@ export const fetchPopularMovies = async () => {
   }
 };
 
-// Pobieranie nowości kinowych
+// New releases
 export const fetchNewReleases = async () => {
   try {
     const response = await axiosInstance.get(`/movie/now_playing`);
@@ -33,7 +33,7 @@ export const fetchNewReleases = async () => {
   }
 };
 
-// Pobieranie najlepiej ocenianych filmów
+// Top rated movies
 export const fetchTopRatedMovies = async () => {
   try {
     const response = await axiosInstance.get(`/movie/top_rated`);
@@ -44,7 +44,7 @@ export const fetchTopRatedMovies = async () => {
   }
 };
 
-// Pobieranie obecnie popularnych osób
+// Trending people
 export const fetchTrendingPeople = async () => {
   try {
     const response = await axiosInstance.get(`/trending/person/week`);
@@ -55,7 +55,7 @@ export const fetchTrendingPeople = async () => {
   }
 };
 
-// Pobieranie filmów z danego gatunku
+// Sorting movies by genre
 export const fetchMoviesByGenre = async (genreId: number) => {
   const res = await fetch(
     `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`
@@ -64,7 +64,7 @@ export const fetchMoviesByGenre = async (genreId: number) => {
   return data.results;
 };
 
-// Szukanie filmów na podstawie zapytania
+// Searching movies
 export const searchMovies = async (query: string) => {
   const res = await fetch(
     `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`

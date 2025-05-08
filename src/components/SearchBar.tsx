@@ -7,8 +7,8 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState<string>(""); // Stan do przechowywania wartości wpisanej w polu wyszukiwania
-  const inputRef = useRef<HTMLInputElement>(null); // Referencja do inputa
+  const [query, setQuery] = useState<string>(""); // State for the search query
+  const inputRef = useRef<HTMLInputElement>(null); // Ref for the input field
 
   // Funkcja obsługująca wysłanie formularza
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       onSearch(query);
 
       if (inputRef.current) {
-        inputRef.current.blur(); // Usunięcie focusu z inputa po wysłaniu formularza
+        inputRef.current.blur(); // Blur the input field after submitting
       }
     }
   };
