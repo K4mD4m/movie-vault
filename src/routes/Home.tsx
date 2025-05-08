@@ -39,7 +39,7 @@ const Home: React.FC = () => {
   const [errorPeople, setErrorPeople] = useState<string | null>(null); // error message
 
   const [visibleCount, setVisibleCount] = useState(5); // Visible movies count
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // error message
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // State to manage loading additional movies
 
   // Fetching movies, top rated movies and trending people when the component mounts
   useEffect(() => {
