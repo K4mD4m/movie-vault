@@ -195,20 +195,28 @@ const Search = () => {
                 mx: "auto",
               }}
             >
-              <InputLabel id="genre-select-label" sx={{ color: "white" }}>
+              <InputLabel
+                id="genre-select-label"
+                sx={{
+                  color: "white",
+                  mt: 1,
+                  fontSize: "1rem",
+                }}
+              >
                 Select Genre
               </InputLabel>
+
               <Select
                 labelId="genre-select-label"
                 value={selectedGenre}
                 onChange={handleGenreChange}
                 label="Select Genre"
                 sx={{
-                  backgroundColor: "rgba(96, 96, 96, 0.8)",
+                  backgroundColor: "rgba(60, 60, 60, 0.9)",
                   color: "white",
                   py: { xs: 2, lg: 1 },
                   px: 4,
-                  borderRadius: 6,
+                  borderRadius: 2,
                   "& .MuiOutlinedInput-notchedOutline": {
                     borderColor: "white",
                   },
@@ -217,6 +225,19 @@ const Search = () => {
                   },
                   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                     borderColor: "white",
+                  },
+                  "& .MuiSelect-icon": {
+                    color: "white",
+                  },
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#2d2d2d",
+                      color: "#eee",
+                      boxShadow: 3,
+                      borderRadius: 2,
+                    },
                   },
                 }}
               >
@@ -228,10 +249,17 @@ const Search = () => {
                     key={genre.id}
                     value={genre.name}
                     sx={{
-                      color: "white",
-                      backgroundColor: "rgba(0, 0, 0, 0.9)",
+                      color: "#f0f0f0",
+                      backgroundColor: "#2d2d2d",
                       "&:hover": {
-                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                        backgroundColor: "#3a3a3a",
+                      },
+                      "&.Mui-selected": {
+                        backgroundColor: "#555",
+                        color: "#fff",
+                      },
+                      "&.Mui-selected:hover": {
+                        backgroundColor: "#666",
                       },
                     }}
                   >
@@ -257,7 +285,7 @@ const Search = () => {
                 }}
                 className="flex items-center text-indigo-400 hover:text-indigo-300 transition mb-6 text-lg font-semibold cursor-pointer"
               >
-                <ArrowLeft className="mr-2" /> Back to Search
+                <ArrowLeft className="mr-2" /> Back
               </button>
             </div>
             Search Results:
