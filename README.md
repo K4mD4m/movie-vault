@@ -4,9 +4,9 @@
 
 ## 🚀 What's New in v1.1
 
--**User registration and login via Firebase Authentication.**
--**Rating system**: user can now rate movies directly from the interface
--**Dashboard**: authenticated users get a dashboard showing all the movies they've rated.
+- **User registration and login via Firebase Authentication.**
+- **Rating system**: user can now rate movies directly from the interface
+- **Dashboard**: authenticated users get a dashboard showing all the movies they've rated.
 
 ## 🎯Project Goal
 
@@ -14,13 +14,13 @@ The goal of this project is to create an interactive movie discovery and rating 
 
 ## ✨Application Features
 
--**User Authentication**: Register and log in with Firebase Auth.
--**Personal Dashboard**: View your recently rated movies in one place.
--**Movie Rating**: Rate movies and sort your rated list.
--**Movie Search**: Find movies by title and explore search results.
--**Genre Browsing**: Browse movies by genres like action, comedy, horror, etc.
--**Movie Details**: See detailed info like overview, release date, rating, and genres..
--**Custom UI Design**: Built with **React**, **TailwindCSS**, **React Slick** and **Material UI** for a responsive and modern interface.
+- **User Authentication**: Register and log in with Firebase Auth.
+- **Personal Dashboard**: View your recently rated movies in one place.
+- **Movie Rating**: Rate movies and sort your rated list.
+- **Movie Search**: Find movies by title and explore search results.
+- **Genre Browsing**: Browse movies by genres like action, comedy, horror, etc.
+- **Movie Details**: See detailed info like overview, release date, rating, and genres..
+- **Custom UI Design**: Built with **React**, **TailwindCSS**, **React Slick** and **Material UI** for a responsive and modern interface.
 
 ## 🛠️Technologies
 
