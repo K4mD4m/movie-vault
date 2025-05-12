@@ -1,40 +1,49 @@
 # Movie Vault 🎬
 
-**Movie Vault** is a web application for browsing movies, designed to help users discover new films based on their genres and search for them by title. The app utilizes The Movie Database (TMDb) API to fetch movie details and display them on dedicated subpages.
+**Movie Vault** is a web application for browsing and rating movies. It helps users discover new films based on genres or search by title. With user accounts, people can now rate movies and view their personal rated list in a dedicated dashboard. The app uses The Movie Database (TMDb) API to fetch detailed movie data.
 
-## Project Goal
+## 🚀 What's New in v1.1
+-**User registration and login via Firebase Authentication.**
+-**Rating system**: user can now rate movies directly from the interface
+-**Dashboard**: authenticated users get a dashboard showing all the movies they've rated.
 
-The goal of this project was to create an interactive web application that allows users to easily explore movies across different genres, search for them by title, and view detailed movie information.
+## 🎯Project Goal
 
-## Application Features
+The goal of this project is to create an interactive movie discovery and rating platform with personalized features, combining modern UI and third-party data integration.
 
-- **Movie Search**: Users can search for movies by title, and the app will display the results as cards.
-- **Movie Genres**: Movies are categorized into different genres such as action, comedy, drama, horror, etc., allowing users to browse films within these categories
-- **Movie Details**: By clicking on a movie, users can access a detailed page with information such as title, description, rating, release date, and genre.
-- **Custom UI Design**: The application uses **React**, **TailwindCSS**, **React Slick** and **Material UI** to implement interactive carousels, UI components, and styling.
+## ✨Application Features
 
-## Technologies
+-**User Authentication**: Register and log in with Firebase Auth.
+-**Personal Dashboard**: View your recently rated movies in one place.
+-**Movie Rating**: Rate movies and sort your rated list.
+-**Movie Search**: Find movies by title and explore search results.
+-**Genre Browsing**: Browse movies by genres like action, comedy, horror, etc.
+-**Movie Details**: See detailed info like overview, release date, rating, and genres..
+-**Custom UI Design**: Built with **React**, **TailwindCSS**, **React Slick** and **Material UI** for a responsive and modern interface.
 
-- **React**: Library for building user interfaces.
-- **Vite**: Tool for fast application bundling.
-- **TailwindCSS**: Utility-first CSS framework for styling.
-- **Material UI**: UI component library for building responsive and modern interfaces.
-- **React Router**: For managing navigation within the application.
-- **Slick Carousel**: For implementing movie carousels.
-- **The Movie Database (TMDb) API**: For fetching movie data.
+## 🛠️Technologies
 
-## Future Plans / Enhancements
+- **React**: UI library.
+- **Vite**: Fast bundler for development and production.
+- **Firebase**: Auth and Firestore for user menagment and data storage.
+- **TailwindCSS**: Utility-first CSS styling.
+- **Material UI**: Prebuilt responsive UI components.
+- **React Router**: Routing and navigation.
+- **Slick Carousel**: For movie carousels.
+- **The Movie Database (TMDb) API**: For retrieving movie data.
 
-- Adding a feature for users to rate movies.
-- Integration with a user authentication system.
-- Ability to add movies to a favorites list.
-- Expanding the application with more interactive features such as comments and reviews.
+## 🔭Future Plans / Enhancements
 
-## Testing
+- Add the ability to favorite and bookmark movies.
+- Implement a comment or review system.
+- Improve dashboard filtering and sorting
+- Add full testing
 
-The application does not yet include a full set of unit or end-to-end tests. In the future, I plan to add tests using Jest and React Testing Library to ensure code quality and application stability.
+## 🧪Testing
 
-## Installation
+Testing is not fully implemented yet. Future versions will include Jest and React Testing Library to improve stability and catch regressions early.
+
+## 📦Installation
 
 1. Clone the repository:
 
@@ -57,26 +66,41 @@ The application does not yet include a full set of unit or end-to-end tests. In 
 
 4. The application should be available at: http://localhost:5173/
 
-## `.env.local` File
+## 🔐Environment Variables (`.env.local`)
 
-To enable the application to communicate with The Movie Database (TMDb) API, you need an API key. This key should be placed in the `.env.local` file in the root directory of the project.
+To enable communication with TMDb and Firebase services, you need to configure your `.env.local` file with the necessary API keys.
 
-### Step 1: Get an API Key
+### Step 1: Get TMDb API Key
 
 1. Register or log in to [The Movie Database](https://www.themoviedb.org/).
 2. Go to your profile and open the API section [API](https://www.themoviedb.org/settings/api).
 3. Generate a new API key.
 
-### Step 2: Configure the .env.local File
+### Step 2: 
 
-In the project's root directory, create a file named '.env.local' and add the following variable:
-VITE_TMDB_API_KEY=your_api_key_here
+1. Go to Firebase Console and create a project. [Firebase](https://firebase.google.com/)
+2. Enable Authentication (Email/Password and Google provider).
+3. Create a Firestore database
 
-Replace `your_api_key_here` with the API key you obtained from TMDb.
+### Step 3: Configure the .env.local File
 
-### Step 3: Run the Application
+   ```bash
+VITE_TMDB_API_KEY=your_tmdb_api_key
 
-After saving the `.env.local` file, you can run the application locally, and it will be able to communicate with the API and fetch movie data.
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+   ```
+`🔁 Replace the placeholder values with the actual Firebase configuration from your project settings.`
+
+
+
+### Step 4: Run the Application
+
+After setting up `.env.local`, the app can connect to both the TMDb API and Firebase services.
 
 ## Live Demo
 
