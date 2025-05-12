@@ -3,6 +3,7 @@
 **Movie Vault** is a web application for browsing and rating movies. It helps users discover new films based on genres or search by title. With user accounts, people can now rate movies and view their personal rated list in a dedicated dashboard. The app uses The Movie Database (TMDb) API to fetch detailed movie data.
 
 ## 🚀 What's New in v1.1
+
 -**User registration and login via Firebase Authentication.**
 -**Rating system**: user can now rate movies directly from the interface
 -**Dashboard**: authenticated users get a dashboard showing all the movies they've rated.
